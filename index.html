@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+<meta charset="UTF-8">
+<title>Desafio da Saúde Bucal</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:'Poppins',sans-serif;
+background:#B1D887;
+display:flex;
+align-items:center;
+justify-content:center;
+height:100vh;
+color:#333;
+}
+
+.quiz-box{
+width:800px;
+max-width:90%;
+text-align:center;
+}
+
+.card{
+background:white;
+padding:40px;
+border-radius:30px;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+.numero{
+background:#DF8992;
+display:inline-block;
+padding:10px 20px;
+border-radius:30px;
+font-weight:bold;
+margin-bottom:15px;
+color:white;
+}
+
+.pergunta{
+font-size:24px;
+font-weight:600;
+margin-bottom:20px;
+}
+
+.opcoes{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+margin-top:20px;
+}
+
+.opcao{
+background:#2F422E;
+padding:18px;
+border-radius:18px;
+cursor:pointer;
+font-weight:600;
+color:white;
+transition:0.2s;
+}
+
+.opcao:hover{
+transform:scale(1.05);
+background:#DF8992;
+}
+
+input{
+padding:15px;
+border-radius:10px;
+border:none;
+width:60%;
+margin-top:20px;
+font-size:16px;
+background:#F1C8CB;
+}
+
+button{
+margin-top:20px;
+padding:15px 30px;
+border:none;
+border-radius:15px;
+background:#F6B0BB;
+color:white;
+font-size:18px;
+cursor:pointer;
+}
+
+button:hover{
+background:#9CAD8C;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="quiz-box" id="quiz">
+
+<div class="card">
+
+<h2>🦷 Desafio da Saúde Bucal</h2>
+
+<p>Digite seu nome para começar</p>
+
+<input type="text" id="nome">
+
+<br>
+
+<button onclick="startQuiz()">Começar</button>
+
+</div>
+
+</div>
+
+<script>
+
+let nome=""
+let atual=0
+let pontos=0
+
+let perguntas=[
+
+{
+pergunta:"Qual é o tecido mais duro do corpo humano?",
+opcoes:["Osso","Unha","Esmalte do dente","Cartilagem"],
+resposta:2
+},
+
+{
+pergunta:"Beber refrigerante todos os dias pode causar cárie mesmo escovando os dentes?",
+opcoes:["Não, porque a escova resolve tudo","Sim, porque o açúcar e o ácido atacam o esmalte","Não, refrigerante não afeta dentes","Só causa mau hálito"],
+resposta:1
+},
+
+{
+pergunta:"Por que os dentistas recomendam esperar cerca de 30 minutos para escovar os dentes após consumir algo ácido?",
+opcoes:["Para não quebrar a escova","Porque o esmalte fica temporariamente mais sensível ao desgaste","Porque a pasta de dente perde efeito","Porque a saliva precisa secar"],
+resposta:1
+},
+
+{
+pergunta:"Qual hábito pode causar desgaste dos dentes sem a pessoa perceber?",
+opcoes:["Beber água","Ranger os dentes durante o sono (bruxismo)","Comer frutas","Falar muito"],
+resposta:1
+},
+
+{
+pergunta:"De onde vem a maior parte do mau hálito?",
+opcoes:["Do estômago","Da língua e das bactérias da boca","Dos pulmões","Dos ouvidos"],
+resposta:1
+},
+
+{
+pergunta:"Se a gengiva sangra ao escovar os dentes, o que geralmente significa?",
+opcoes:["Que a escova é muito nova","Que a gengiva pode estar inflamada","Que os dentes estão fortes","Que a pasta de dente é forte"],
+resposta:1
+},
+
+{
+pergunta:"Por que usar fio dental é importante?",
+opcoes:["Para clarear os dentes","Porque a escova não alcança entre os dentes","Para fortalecer a gengiva","Para deixar os dentes maiores"],
+resposta:1
+},
+
+{
+pergunta:"O que realmente causa a cárie?",
+opcoes:["Apenas comer chocolate","Apenas beber refrigerante","Bactérias + açúcar + falta de higiene","Escovar pouco"],
+resposta:2
+},
+
+{
+pergunta:"Quantas espécies de bactérias podem viver na boca humana?",
+opcoes:["Cerca de 20","Cerca de 100","Mais de 700 espécies","Apenas 10"],
+resposta:2
+},
+
+{
+pergunta:"Dentes de leite precisam ser tratados quando têm cárie?",
+opcoes:["Não, porque vão cair","Sim, porque afetam a saúde e os dentes permanentes","Só se doer","Só quando o dentista mandar"],
+resposta:1
+},
+
+{
+pergunta:"Chiclete sem açúcar pode ajudar a saúde bucal porque:",
+opcoes:["Limpa os dentes","Estimula a produção de saliva","Mata todas as bactérias","Substitui a escovação"],
+resposta:1
+},
+
+{
+pergunta:"Comer doce várias vezes ao dia aumenta o risco de cárie principalmente por causa:",
+opcoes:["Da quantidade","Da frequência de consumo","Da cor do doce","Do sabor"],
+resposta:1
+},
+
+{
+pergunta:"Se uma pessoa perde um dente e não coloca outro no lugar, o que pode acontecer?",
+opcoes:["Nada muda","Os outros dentes podem se mover","Nasce outro dente","A gengiva fecha completamente"],
+resposta:1
+},
+
+{
+pergunta:"A língua também precisa ser escovada porque:",
+opcoes:["Tem muitas bactérias","Ajuda os dentes crescerem","Deixa os dentes mais brancos","Fortalece o esmalte"],
+resposta:0
+},
+
+{
+pergunta:"O flúor ajuda os dentes porque:",
+opcoes:["Clareia os dentes","Fortalece o esmalte contra cáries","Mata todas as bactérias","Faz nascer novos dentes"],
+resposta:1
+}
+
+]
+
+function startQuiz(){
+
+nome=document.getElementById("nome").value
+
+if(nome===""){
+alert("Digite seu nome para começar!")
+return
+}
+
+mostrar()
+
+}
+
+function mostrar(){
+
+let q=perguntas[atual]
+
+let html=`
+
+<div class="card">
+
+<div class="numero">${atual+1} / ${perguntas.length}</div>
+
+<div class="pergunta">${q.pergunta}</div>
+
+<div class="opcoes">
+
+<div class="opcao" onclick="responder(0)">A) ${q.opcoes[0]}</div>
+<div class="opcao" onclick="responder(1)">B) ${q.opcoes[1]}</div>
+<div class="opcao" onclick="responder(2)">C) ${q.opcoes[2]}</div>
+<div class="opcao" onclick="responder(3)">D) ${q.opcoes[3]}</div>
+
+</div>
+
+</div>
+`
+
+document.getElementById("quiz").innerHTML=html
+
+}
+
+function responder(op){
+
+if(op===perguntas[atual].resposta){
+pontos++
+}
+
+atual++
+
+if(atual<perguntas.length){
+mostrar()
+}else{
+desafioFinal()
+}
+
+}
+
+function desafioFinal(){
+
+document.getElementById("quiz").innerHTML=`
+
+<div class="card">
+
+<h2>🚨 Desafio Final</h2>
+
+<p>
+
+Imagine que você está com uma dor muito forte no dente,
+seu rosto começou a inchar e você teve febre.
+
+O que você faria?
+
+</p>
+
+<div class="opcoes">
+
+<div class="opcao" onclick="final()">Esperar a dor passar sozinha</div>
+<div class="opcao" onclick="final()">Tomar remédio por conta própria</div>
+<div class="opcao" onclick="final()">Procurar um dentista ou uma UBS</div>
+<div class="opcao" onclick="final()">Ignorar e continuar normalmente</div>
+
+</div>
+
+</div>
+
+`
+
+}
+
+function final(){
+
+let mensagem=""
+
+if(pontos<=5){
+mensagem=`${nome}, você precisa melhorar seus conhecimentos sobre saúde bucal.`
+}
+
+else if(pontos<=10){
+mensagem=`Parabéns, ${nome}! Você sabe bastante sobre saúde bucal.`
+}
+
+else{
+mensagem=`Excelente, ${nome}! Seu conhecimento sobre saúde bucal é excelente!`
+}
+
+document.getElementById("quiz").innerHTML=`
+
+<div class="card">
+
+<h2>Resultado</h2>
+
+<p>${nome}, você acertou ${pontos} de ${perguntas.length} perguntas.</p>
+
+<p><b>${mensagem}</b></p>
+
+<br>
+
+<p style="font-size:14px;color:gray">
+
+Trabalho desenvolvido por alunos do 1º semestre de Odontologia
+do Centro Universitário do Vale do Araguaia (UNIVAR).
+
+</p>
+
+</div>
+
+`
+
+}
+
+</script>
+
+</body>
+</html>
